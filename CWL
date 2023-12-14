@@ -1,0 +1,87 @@
+{
+    "label": "simple_pass_cwl",
+    "cwlVersion": "v1.2",
+    "inputs": [],
+    "outputs": [],
+    "class": "CommandLineTool",
+    "$namespaces": {
+        "sbg": "https://sevenbridges.com"
+        "id": "test_2"
+        "baseCommand":
+           "echo"
+        "inputs":
+            "id": "input_files"
+            "type": 'File[]?'
+        "outputs":
+            "id": "output_R1"
+            "type": "File?"
+            "outputBinding":
+              "outputEval": |-
+                ${
+                    var outlist = [];
+                    var reads = [].concat(inputs.input_files);
+                    var counter = 0;
+                    for (var i=0; i<reads.length; i++){
+                        if(inputs.input_files[i].metadata && inputs.input_files[i].metadata.paired_end){
+                            if(inputs.input_files[i].metadata.paired_end == 1){
+                                outlist.push(inputs.input_files[i])
+                            }
+                        }
+                    }
+                    return outlist
+                }
+            "id": "output_R2"
+            "type": "File?"
+            "outputBinding":
+              "outputEval": |-
+                ${
+                    var outlist = [];
+                    var reads = [].concat(inputs.input_files);
+                    var counter = 0;
+                    for (var i=0; i<reads.length; i++){
+                        if(inputs.input_files[i].metadata && inputs.input_files[i].metadata.paired_end){
+                            if(inputs.input_files[i].metadata.paired_end == 2){
+                                outlist.push(inputs.input_files[i])
+                            }
+                        }
+                    }
+                    return outlist
+                }
+        "label": "Pair-end Read Input Expander"
+        "requirements":
+            "class": "DockerRequirement"
+            "dockerPull": 'alpine:latest'
+            "class": "InlineJavascriptRequirement"
+            },
+    "sbg:appVersion": [
+        "v1.0"
+    ],
+    "id": "https://api.sbgenomics.com/v2/apps/flare-therapeutics/rnaseq-zs/simple-pass-cwl/0/raw/",
+    "sbg:id": "flare-therapeutics/rnaseq-zs/simple-pass-cwl/0",
+    "sbg:revision": 0,
+    "sbg:revisionNotes": null,
+    "sbg:modifiedOn": 1702559015,
+    "sbg:modifiedBy": "flare-therapeutics/gpattarone",
+    "sbg:createdOn": 1702559015,
+    "sbg:createdBy": "flare-therapeutics/gpattarone",
+    "sbg:project": "flare-therapeutics/rnaseq-zs",
+    "sbg:projectName": "RNASeq-ZS",
+    "sbg:sbgMaintained": false,
+    "sbg:validationErrors": [],
+    "sbg:contributors": [
+        "flare-therapeutics/gpattarone"
+    ],
+    "sbg:latestRevision": 0,
+    "sbg:revisionsInfo": [
+        {
+            "sbg:revision": 0,
+            "sbg:modifiedBy": "flare-therapeutics/gpattarone",
+            "sbg:modifiedOn": 1702559015,
+            "sbg:revisionNotes": null
+        }
+    ],
+    "sbg:image_url": null,
+    "sbg:publisher": "sbg",
+    "sbg:content_hash": "a3dc65dd241197323d9858ae15a62f4cbdcd5b865d12c6cbc460c43ea9045f30a",
+    "sbg:workflowLanguage": "CWL"
+}
